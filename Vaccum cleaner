@@ -1,0 +1,71 @@
+class VacuumCleaner:
+    def __init__(self, environment):
+        self.environment = environment
+        self.position = (0, 0)  # Starting position at the top-left corner
+        self.cleaning_operations = 0
+    
+    def clean(self):
+        x, y = self.position
+        if self.environment[x][y] == 'dirty':
+            self.environment[x][y] = 'clean'
+            self.cleaning_operations += 1
+            print(f"Cleaned position ({x}, {y})")
+        else:
+            print(f"Position ({x}, {y}) is already clean")
+    
+    def move_right(self):
+        x, y = self.position
+        if y < len(self.environment[0]) - 1:
+            self.position = (x, y + 1)
+            print(f"Moved to position ({x}, {y + 1})")
+    
+    def move_left(self):
+        x, y = self.position
+        if y > 0:
+            self.position = (x, y - 1)
+            print(f"Moved to position ({x}, {y - 1})")
+    
+    def move_down(self):
+        x, y = self.position
+        if x < len(self.environment) - 1:
+            self.position = (x + 1, y)
+            print(f"Moved to position ({x + 1}, {y})")
+    
+    def move_up(self):
+        x, y = self.position
+        if x > 0:
+            self.position = (x - 1, y)
+            print(f"Moved to position ({x - 1}, {y})")
+
+def simulate_vacuum_cleaner(environment):
+    vacuum = VacuumCleaner(environment)
+    
+    # Simple strategy: clean the current room, then move to the next room in a specific order
+    for _ in range(2):  # Two rows
+        for _ in range(2):  # Two columns
+            vacuum.clean()
+            vacuum.move_right()
+        vacuum.move_left()  # Move back to the start of the row
+        vacuum.move_down()  # Move to the next row
+    
+    # Clean the last position
+    vacuum.clean()
+
+    print(f"Total cleaning operations: {vacuum.cleaning_operations}")
+    return vacuum.environment
+
+# Example environment (2x2 grid)
+environment = [
+    ['dirty', 'dirty'],
+    ['clean', 'dirty']
+]
+
+print("Initial environment:")
+for row in environment:
+    print(row)
+
+final_environment = simulate_vacuum_cleaner(environment)
+
+print("Final environment:")
+for row in final_environment:
+    print(row)
