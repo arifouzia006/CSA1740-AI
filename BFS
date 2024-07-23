@@ -1,0 +1,38 @@
+from collections import deque
+
+def bfs(graph, start):
+    # Create a queue for BFS
+    queue = deque([start])
+    # Create a set to keep track of visited nodes
+    visited = set()
+
+    while queue:
+        # Dequeue a vertex from queue
+        node = queue.popleft()
+
+        # If this vertex has not been visited yet
+        if node not in visited:
+            print(node, end=" ")
+            # Mark it as visited
+            visited.add(node)
+
+            # Get all adjacent vertices of the dequeued vertex node
+            # If an adjacent has not been visited, then enqueue it
+            for neighbor in graph[node]:
+                if neighbor not in visited:
+                    queue.append(neighbor)
+
+# Example usage:
+# Graph representation as an adjacency list
+graph = {
+    'A': ['B', 'C'],
+    'B': ['D', 'E'],
+    'C': ['F'],
+    'D': [],
+    'E': ['F'],
+    'F': []
+}
+
+# Perform BFS traversal starting from vertex 'A'
+print("BFS traversal starting from vertex 'A':")
+bfs(graph, 'A')
