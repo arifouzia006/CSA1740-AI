@@ -1,0 +1,43 @@
+# Python program to implement Depth-First Search (DFS)
+
+# A class to represent the graph
+class Graph:
+    def __init__(self):
+        self.graph = {}
+
+    # Function to add an edge to the graph
+    def add_edge(self, u, v):
+        if u not in self.graph:
+            self.graph[u] = []
+        self.graph[u].append(v)
+
+    # A function used by DFS
+    def dfs_util(self, v, visited):
+        # Mark the current node as visited
+        visited.add(v)
+        print(v, end=' ')
+
+        # Recur for all the vertices adjacent to this vertex
+        for neighbour in self.graph.get(v, []):
+            if neighbour not in visited:
+                self.dfs_util(neighbour, visited)
+
+    # The function to do DFS traversal. It uses the recursive dfs_util
+    def dfs(self, start_vertex):
+        # Create a set to store visited vertices
+        visited = set()
+        
+        # Call the recursive helper function to print DFS traversal
+        self.dfs_util(start_vertex, visited)
+
+# Create a graph and add edges
+g = Graph()
+g.add_edge(0, 1)
+g.add_edge(0, 2)
+g.add_edge(1, 2)
+g.add_edge(2, 0)
+g.add_edge(2, 3)
+g.add_edge(3, 3)
+
+print("Depth First Traversal starting from vertex 2:")
+g.dfs(2)
